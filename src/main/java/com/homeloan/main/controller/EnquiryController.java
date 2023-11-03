@@ -2,9 +2,12 @@ package com.homeloan.main.controller;
 
 import javax.validation.Valid;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,13 +18,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.homeloan.main.enums.CibilStatus;
+import com.homeloan.main.exception.ValidationException;
 import com.homeloan.main.payload.ApiResponse;
 import com.homeloan.main.payload.EnquiryResponse;
 import com.homeloan.main.payload.PaginatedResponse;
 import com.homeloan.main.payload.PaginationRequest;
 import com.homeloan.main.payload.request.EnquiryRequest;
 import com.homeloan.main.service.EnquiryService;
-
 
 
 /**
@@ -44,12 +47,14 @@ public class EnquiryController {
 	 * @return
 	 */
 	@PostMapping
-	public ResponseEntity<EnquiryRequest> addEnquiry(@Valid @RequestBody EnquiryRequest enquiryRequest ){
+	public ResponseEntity<EnquiryRequest> addEnquiry(@Valid @RequestBody EnquiryRequest enquiryRequest){
+		
 		 EnquiryRequest addEnquiry = enquiryService.addEnquiry(enquiryRequest);
 		return new ResponseEntity<EnquiryRequest>(addEnquiry,HttpStatus.CREATED);
 		
 	}
 	
+
 		
 	
 	/**
@@ -83,8 +88,7 @@ public class EnquiryController {
 		
 	}
 	
-	
-	
+		
 	/**
 	 * Update enquiry
 	 * @param enquiryRequest

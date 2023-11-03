@@ -20,7 +20,7 @@ import com.homeloan.main.payload.EnquiryResponse;
 import com.homeloan.main.payload.PaginatedResponse;
 import com.homeloan.main.payload.PaginationRequest;
 import com.homeloan.main.payload.request.EnquiryRequest;
-import com.homeloan.main.repository.EnquiryRespository;
+import com.homeloan.main.repository.EnquiryRepository;
 import com.homeloan.main.service.EnquiryService;
 
 /**
@@ -30,7 +30,7 @@ import com.homeloan.main.service.EnquiryService;
 @Service
 public class EnquiryServiceImpl implements EnquiryService{
 	@Autowired
-	private EnquiryRespository enquiryRespository;
+	private EnquiryRepository enquiryRespository;
 	
 	@Autowired
 	private ModelMapper modelMapper;
@@ -40,16 +40,16 @@ public class EnquiryServiceImpl implements EnquiryService{
 	@Override
 	public EnquiryRequest addEnquiry(@Valid EnquiryRequest enquiryRequest) {
 		UserEnquiry enquiry = modelMapper.map(enquiryRequest, UserEnquiry.class); 
-		enquiry.setCibilStatus(CibilStatus.pending);
+		//enquiry.setCibilStatus(CibilStatus.pending);   
 		
 		if(enquiryRespository.existsByUserEmailId(enquiry.getUserEmailId())) {
-			ApiResponse apiResponse = new ApiResponse(Boolean.FALSE,"Email Id is already taken");
-			throw new BadRequestException(apiResponse);
+//			ApiResponse apiResponse = new ApiResponse(Boolean.FALSE,"Email Id is already taken");
+//			throw new BadRequestException(apiResponse);
+			throw new BadRequestException("Email Id  is already taken");
 		}
 		
 		if(enquiryRespository.existsByPancardNumber(enquiry.getPancardNumber())) {
-			ApiResponse apiResponse = new ApiResponse(Boolean.FALSE,"Pan no is already taken");
-			throw new BadRequestException(apiResponse);
+				throw new BadRequestException("Pan no is already taken");
 		}
 		UserEnquiry addEnq = enquiryRespository.save(enquiry);
 		return modelMapper.map(addEnq, EnquiryRequest.class);
@@ -63,6 +63,7 @@ public class EnquiryServiceImpl implements EnquiryService{
 		
 		int pageNuber = request.getPageNumber();
 		int pageSize = request.getPageSize();
+	
 		
 		if(pageNuber <= 0) {
 			pageNuber = 1;
@@ -90,7 +91,7 @@ public class EnquiryServiceImpl implements EnquiryService{
 	@Override
 	public void deleteEnquiry(Integer id) {
 		 UserEnquiry enquiry = enquiryRespository.findById(id)
-		 .orElseThrow(() -> new BadRequestException(id+"Id is not present"));
+		 .orElseThrow(() -> new BadRequestException(id+" Id is not present"));
 		 
 		 enquiryRespository.delete(enquiry);
 		
