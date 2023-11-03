@@ -12,16 +12,12 @@ import com.homeloan.main.model.UserEnquiry;
 
 
 @Repository
-public interface EnquiryRespository extends JpaRepository<UserEnquiry, Integer>{
+public interface EnquiryRepository extends JpaRepository<UserEnquiry, Integer>{
 
 	boolean existsByUserEmailId(@NotBlank String userEmailId);
 
 	boolean existsByPancardNumber(@NotBlank String pancardNumber);
 
 	Page<UserEnquiry> findByCibilStatus(CibilStatus cibilstatus, Pageable pageable);
-
-	
-	
-	
 
 }

@@ -5,6 +5,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.homeloan.main.enums.CibilStatus;
 
@@ -51,6 +52,7 @@ public class EnquiryRequest {
 	@JsonProperty(value = "cibilStatus")
 	private CibilStatus cibilStatus;
 	
+	@JsonIgnore
 	@JsonProperty(value = "cibilScore")
 	private Integer cibilScore;
 	

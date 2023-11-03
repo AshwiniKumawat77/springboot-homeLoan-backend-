@@ -18,6 +18,7 @@ import org.hibernate.annotations.NaturalId;
 import com.homeloan.main.enums.CibilStatus;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -25,6 +26,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Table(name ="Usr_Enquiry", 
 uniqueConstraints = {
 		@UniqueConstraint(columnNames = {"emailid"}),
