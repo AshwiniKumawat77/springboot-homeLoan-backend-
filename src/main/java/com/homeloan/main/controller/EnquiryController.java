@@ -18,13 +18,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.homeloan.main.enums.CibilStatus;
-import com.homeloan.main.exception.ValidationException;
 import com.homeloan.main.payload.ApiResponse;
 import com.homeloan.main.payload.EnquiryResponse;
 import com.homeloan.main.payload.PaginatedResponse;
 import com.homeloan.main.payload.PaginationRequest;
 import com.homeloan.main.payload.request.EnquiryRequest;
 import com.homeloan.main.service.EnquiryService;
+
+import lombok.extern.slf4j.Slf4j;
 
 
 /**
@@ -34,6 +35,7 @@ import com.homeloan.main.service.EnquiryService;
 @RestController
 @CrossOrigin("*")
 @RequestMapping("/enquiry")
+@Slf4j
 public class EnquiryController {
 	
 	@Autowired
@@ -48,8 +50,9 @@ public class EnquiryController {
 	 */
 	@PostMapping
 	public ResponseEntity<EnquiryRequest> addEnquiry(@Valid @RequestBody EnquiryRequest enquiryRequest){
-		
+		log.info("EnquiryController:: add new Enquriy", enquiryRequest);
 		 EnquiryRequest addEnquiry = enquiryService.addEnquiry(enquiryRequest);
+		 log.info("EnquiryController:: Enquriy add successfully", enquiryRequest);
 		return new ResponseEntity<EnquiryRequest>(addEnquiry,HttpStatus.CREATED);
 		
 	}
@@ -65,7 +68,7 @@ public class EnquiryController {
 	@PostMapping("/enquiries")
 	public ResponseEntity<PaginatedResponse<EnquiryResponse>> getAllEnquiryByPaging(
 			@RequestBody PaginationRequest request){
-		
+		log.info("EnquiryController:: get All Enquries");
 		PaginatedResponse<EnquiryResponse> response = enquiryService.findAllEnquiry(request);
 	
 		return ResponseEntity.ok(response);
@@ -84,6 +87,7 @@ public class EnquiryController {
 			@RequestBody PaginationRequest request,
 			@PathVariable CibilStatus cibilstatus){
 		PaginatedResponse<EnquiryResponse> response = enquiryService.getEnquiryByCibilStatus(cibilstatus, request);
+		log.info("EnquiryController:: get All Enquries by cibil status successfully");
 		return new ResponseEntity<PaginatedResponse<EnquiryResponse>>(response,HttpStatus.OK);
 		
 	}
@@ -98,6 +102,7 @@ public class EnquiryController {
 	@PutMapping("/enq/{id}")
 	public ResponseEntity<EnquiryRequest> updateEnquiry(@Valid @RequestBody EnquiryRequest enquiryRequest,
 			@PathVariable("id") Integer id){
+		log.info("EnquiryController:: get  Enquriy by id");
 		return new ResponseEntity<EnquiryRequest>(enquiryService.updateEnquiry(enquiryRequest,id),HttpStatus.CREATED);
 		
 	}
